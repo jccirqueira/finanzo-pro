@@ -11,9 +11,7 @@ import { Summary } from './components/Summary.js';
 import { INITIAL_CATEGORIES, ADMIN_EMAIL, ADMIN_PASSWORD } from './constants.js';
 import { supabase } from './lib/supabase.js';
 
-// Removido ": React.FC" que causava o erro de sintaxe
 const App = () => {
-  // Removidos os genéricos como <boolean>, <string | null>, etc.
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard');

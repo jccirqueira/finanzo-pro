@@ -9,24 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Babel standalone para processar JSX no navegador -->
+    <!-- Babel standalone para transformar JSX em JS no navegador -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
       body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
       .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
       .dark .glass-card { background: rgba(17, 24, 39, 0.7); border: 1px solid rgba(255, 255, 255, 0.05); }
-      
-      #initial-loader {
-        position: fixed; inset: 0; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; background: #f9fafb;
-        z-index: 9999; transition: opacity 0.5s ease-out;
-      }
+      #initial-loader { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f9fafb; z-index: 9999; transition: opacity 0.5s ease-out; }
       .dark #initial-loader { background: #111827; }
-      .spinner {
-        width: 40px; height: 40px; border: 4px solid #e5e7eb;
-        border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite;
-      }
+      .spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite; }
       @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 
@@ -51,27 +43,22 @@
       </div>
       <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Finanzo Pro</h1>
       <div class="spinner"></div>
-      <p class="mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Iniciando Sistema...</p>
+      <p class="mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Carregando Módulos...</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Usando type="text/babel" para que o Babel processe o JSX dentro de index.js e seus imports -->
+    <!-- IMPORTANTE: type="text/babel" com data-type="module" faz o Babel processar JSX recursivamente -->
     <script type="text/babel" data-type="module" data-presets="react" src="index.js"></script>
 
     <script>
-      window.onerror = function(message, source, lineno, colno, error) {
-        console.error("Erro Crítico:", message, "em", source, "linha:", lineno);
-        return false;
+      window.onerror = function(msg, url, line) {
+        console.error("Erro no Navegador:", msg, "em", url, "linha:", line);
       };
-
       setTimeout(() => {
         const loader = document.getElementById('initial-loader');
-        if (loader && loader.style.opacity !== '0') {
-          loader.style.opacity = '0';
-          setTimeout(() => loader.remove(), 600);
-        }
-      }, 10000);
+        if (loader) loader.style.opacity = '0';
+      }, 8000);
     </script>
   </body>
 </html>

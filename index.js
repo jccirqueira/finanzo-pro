@@ -12,7 +12,6 @@ if (rootElement) {
     </React.StrictMode>
   );
 
-  // Remove o splash screen assim que o React assume o controle
   const loader = document.getElementById('initial-loader');
   if (loader) {
     loader.style.opacity = '0';
