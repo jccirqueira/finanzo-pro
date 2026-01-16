@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Babel standalone para processar TSX no navegador -->
+    <!-- Babel standalone para processar JSX/TS no navegador -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
@@ -28,9 +28,6 @@
         border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
-      
-      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-      .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
     </style>
 
     <script type="importmap">
@@ -55,31 +52,29 @@
       </div>
       <h1 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Finanzo Pro</h1>
       <div class="spinner"></div>
-      <p class="mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Carregando módulos...</p>
+      <p class="mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Iniciando Sistema...</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Scripts de inicialização -->
-    <script type="text/babel" data-type="module" data-presets="react,typescript" src="index.tsx"></script>
+    <!-- Scripts de inicialização - Usando .js para compatibilidade de MIME type -->
+    <script type="text/babel" data-type="module" data-presets="react,typescript" src="index.js"></script>
 
     <script>
-      // Captura de erros globais para ajudar no debug do GitHub Pages
       window.onerror = function(message, source, lineno, colno, error) {
-        console.error("Erro detectado:", message, "em", source);
+        console.error("Erro Crítico:", message, "em", source);
         return false;
       };
 
-      window.addEventListener('load', () => {
-        // O loader será removido pelo React após a montagem ou via timeout de segurança
-        setTimeout(() => {
-          const loader = document.getElementById('initial-loader');
-          if (loader) {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 600);
-          }
-        }, 3000); 
-      });
+      // Timeout de segurança para remover o loader caso o React falhe
+      setTimeout(() => {
+        const loader = document.getElementById('initial-loader');
+        if (loader && loader.style.opacity !== '0') {
+          console.warn("Remoção forçada do loader após timeout.");
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 600);
+        }
+      }, 8000);
     </script>
   </body>
 </html>
