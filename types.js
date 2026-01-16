@@ -1,40 +1,8 @@
 
-export type TransactionType = 'INCOME' | 'EXPENSE';
-export type UserRole = 'admin' | 'user';
-
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-  color: string;
-  type: TransactionType;
-}
-
-export interface Transaction {
-  id: string;
-  description: string;
-  amount: number;
-  date: string;
-  categoryId: string;
-  type: TransactionType;
-}
-
-export interface EnergyBill {
-  id: string;
-  monthYear: string;
-  kwh: number;
-  cpflTotal: number;
-  serenaTotal: number;
-  discountApplied: boolean;
-}
-
-export interface UserProfile {
-  email: string;
-  name: string;
-  theme: 'light' | 'dark';
-  role: UserRole;
-}
-
-export interface UserAccount extends UserProfile {
-  password?: string;
-}
+// Este arquivo agora serve apenas como referência ou exportação de constantes, 
+// pois JavaScript puro não processa 'interface' ou 'type'.
+// Remova os imports de types.js nos outros arquivos para evitar erros.
+export const Roles = {
+  ADMIN: 'admin',
+  USER: 'user'
+};

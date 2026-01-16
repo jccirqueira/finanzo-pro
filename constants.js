@@ -10,3 +10,4 @@ export const INITIAL_CATEGORIES = [
 
 export const ADMIN_EMAIL = 'jcc.cacir@gmail.com';
 export const ADMIN_PASSWORD = '@Jcc.cacir72262728';
+

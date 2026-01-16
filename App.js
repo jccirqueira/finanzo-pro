@@ -1,27 +1,28 @@
 
 import React, { useState, useEffect } from 'react';
-import { Login } from './components/Login.tsx';
-import { Dashboard } from './components/Dashboard.tsx';
-import { Transactions } from './components/Transactions.tsx';
-import { EnergyControl } from './components/EnergyControl.tsx';
-import { Settings } from './components/Settings.tsx';
-import { Sidebar } from './components/Sidebar.tsx';
-import { PeriodPicker } from './components/PeriodPicker.tsx';
-import { Summary } from './components/Summary.tsx';
-import { UserProfile, Transaction, Category, EnergyBill, UserAccount } from './types.ts';
-import { INITIAL_CATEGORIES, ADMIN_EMAIL, ADMIN_PASSWORD } from './constants.tsx';
-import { supabase } from './lib/supabase.ts';
+import { Login } from './components/Login.js';
+import { Dashboard } from './components/Dashboard.js';
+import { Transactions } from './components/Transactions.js';
+import { EnergyControl } from './components/EnergyControl.js';
+import { Settings } from './components/Settings.js';
+import { Sidebar } from './components/Sidebar.js';
+import { PeriodPicker } from './components/PeriodPicker.js';
+import { Summary } from './components/Summary.js';
+import { INITIAL_CATEGORIES, ADMIN_EMAIL, ADMIN_PASSWORD } from './constants.js';
+import { supabase } from './lib/supabase.js';
 
-const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [accounts, setAccounts] = useState<UserAccount[]>([]);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES);
-  const [energyBills, setEnergyBills] = useState<EnergyBill[]>([]);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+// Removido ": React.FC" que causava o erro de sintaxe
+const App = () => {
+  // Removidos os genéricos como <boolean>, <string | null>, etc.
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [user, setUser] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState(INITIAL_CATEGORIES);
+  const [energyBills, setEnergyBills] = useState([]);
+  const [theme, setTheme] = useState('light');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const App: React.FC = () => {
 
           if (profile) {
             setUser({
-              email: session.user.email!,
+              email: session.user.email,
               name: profile.name,
               theme: profile.theme,
               role: profile.role
@@ -55,7 +56,6 @@ const App: React.FC = () => {
           }
         }
         
-        // Carregamento de dados locais como fallback
         const savedTransactions = localStorage.getItem('finanzo_transactions');
         if (savedTransactions) setTransactions(JSON.parse(savedTransactions));
         
@@ -63,14 +63,13 @@ const App: React.FC = () => {
         if (savedAccounts) {
           setAccounts(JSON.parse(savedAccounts));
         } else {
-          const initialAdmin: UserAccount = {
+          setAccounts([{
             email: ADMIN_EMAIL,
             name: 'Administrador JCC',
             password: ADMIN_PASSWORD,
             role: 'admin',
             theme: 'light'
-          };
-          setAccounts([initialAdmin]);
+          }]);
         }
       } catch (err) {
         console.error("Erro na inicialização:", err);
@@ -82,7 +81,7 @@ const App: React.FC = () => {
     initApp();
   }, []);
 
-  const loadUserData = async (userId: string) => {
+  const loadUserData = async (userId) => {
     const [transRes, billsRes, catsRes] = await Promise.all([
       supabase.from('transactions').select('*').eq('user_id', userId).order('date', { ascending: false }),
       supabase.from('energy_bills').select('*').eq('user_id', userId).order('month_year', { ascending: false }),
@@ -96,10 +95,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem('finanzo_theme', theme);
   }, [theme]);
 
-  const handleLogin = (userData: UserProfile) => {
+  const handleLogin = (userData) => {
     setUser(userData);
     setIsAuthenticated(true);
     localStorage.setItem('finanzo_user', JSON.stringify(userData));

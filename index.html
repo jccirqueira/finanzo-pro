@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Babel standalone para processar JSX/TS no navegador -->
+    <!-- Babel standalone para processar JSX no navegador -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
@@ -45,7 +45,6 @@
 </script>
   </head>
   <body class="bg-gray-50 text-gray-900 transition-colors duration-300">
-    <!-- Splash Screen -->
     <div id="initial-loader">
       <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl mb-4 rotate-3">
         <i class="fas fa-wallet text-2xl"></i>
@@ -57,24 +56,22 @@
 
     <div id="root"></div>
     
-    <!-- Scripts de inicialização - Usando .js para compatibilidade de MIME type -->
-    <script type="text/babel" data-type="module" data-presets="react,typescript" src="index.js"></script>
+    <!-- Usando type="text/babel" para que o Babel processe o JSX dentro de index.js e seus imports -->
+    <script type="text/babel" data-type="module" data-presets="react" src="index.js"></script>
 
     <script>
       window.onerror = function(message, source, lineno, colno, error) {
-        console.error("Erro Crítico:", message, "em", source);
+        console.error("Erro Crítico:", message, "em", source, "linha:", lineno);
         return false;
       };
 
-      // Timeout de segurança para remover o loader caso o React falhe
       setTimeout(() => {
         const loader = document.getElementById('initial-loader');
         if (loader && loader.style.opacity !== '0') {
-          console.warn("Remoção forçada do loader após timeout.");
           loader.style.opacity = '0';
           setTimeout(() => loader.remove(), 600);
         }
-      }, 8000);
+      }, 10000);
     </script>
   </body>
 </html>
