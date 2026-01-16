@@ -80,15 +80,19 @@ const App = () => {
   }, []);
 
   const loadUserData = async (userId) => {
-    const [transRes, billsRes, catsRes] = await Promise.all([
-      supabase.from('transactions').select('*').eq('user_id', userId).order('date', { ascending: false }),
-      supabase.from('energy_bills').select('*').eq('user_id', userId).order('month_year', { ascending: false }),
-      supabase.from('categories').select('*').eq('user_id', userId)
-    ]);
+    try {
+      const [transRes, billsRes, catsRes] = await Promise.all([
+        supabase.from('transactions').select('*').eq('user_id', userId).order('date', { ascending: false }),
+        supabase.from('energy_bills').select('*').eq('user_id', userId).order('month_year', { ascending: false }),
+        supabase.from('categories').select('*').eq('user_id', userId)
+      ]);
 
-    if (transRes.data) setTransactions(transRes.data);
-    if (billsRes.data) setEnergyBills(billsRes.data);
-    if (catsRes.data && catsRes.data.length > 0) setCategories(catsRes.data);
+      if (transRes.data) setTransactions(transRes.data);
+      if (billsRes.data) setEnergyBills(billsRes.data);
+      if (catsRes.data && catsRes.data.length > 0) setCategories(catsRes.data);
+    } catch (e) {
+      console.warn("Supabase não configurado ou erro na rede, usando dados locais.");
+    }
   };
 
   useEffect(() => {
