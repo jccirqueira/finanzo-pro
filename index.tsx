@@ -1,11 +1,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './App.tsx';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
+  throw new Error("Não foi possível encontrar o elemento root para montar a aplicação.");
 }
 
 const root = ReactDOM.createRoot(rootElement);
@@ -14,3 +14,10 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Notifica o sistema que o React carregou
+const loader = document.getElementById('initial-loader');
+if (loader) {
+  loader.style.opacity = '0';
+  setTimeout(() => loader.remove(), 600);
+}
