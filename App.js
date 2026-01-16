@@ -91,7 +91,7 @@ const App = () => {
       if (billsRes.data) setEnergyBills(billsRes.data);
       if (catsRes.data && catsRes.data.length > 0) setCategories(catsRes.data);
     } catch (e) {
-      console.warn("Supabase não configurado ou erro na rede, usando dados locais.");
+      console.warn("Usando dados locais.");
     }
   };
 

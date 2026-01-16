@@ -11,4 +11,11 @@ if (rootElement) {
       <App />
     </React.StrictMode>
   );
+
+  // Notifica o sistema que o React carregou
+  const loader = document.getElementById('initial-loader');
+  if (loader) {
+    loader.style.opacity = '0';
+    setTimeout(() => loader.remove(), 600);
+  }
 }
